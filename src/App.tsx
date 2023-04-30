@@ -91,6 +91,8 @@ function App() {
 		// Check if current coordinates are unique in cells (this way no duplicates are created)
 		if (!contains(cells, canvasCoords)) {
 			cells.push(canvasCoords)	
+		} else {
+			cells = cells.filter(cell => !(cell[0] === canvasCoords[0] && cell[1] === canvasCoords[1]))
 		}
 		// Lastly, update canvas without proceeding a generation
 		updateCanvas(canvas, false)
