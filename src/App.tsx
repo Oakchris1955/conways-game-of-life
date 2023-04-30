@@ -24,7 +24,6 @@ function App() {
 				}
 			}
 		}
-		console.log(cells_to_check)
 		
 		const new_cells: [number, number][] = [];
 
@@ -41,7 +40,6 @@ function App() {
 					}
 				}
 			}
-			console.log(cell, neighbours)
 
 			switch (neighbours) {
 				case 3:
@@ -88,7 +86,6 @@ function App() {
 			Math.floor(clickCoords[1] / 100)
 		];
 		console.log(`Click at pixel (${clickCoords[0]}, ${clickCoords[1]})`);
-		console.log(JSON.stringify(cells));
 		// Check if current coordinates are unique in cells (this way no duplicates are created)
 		if (!contains(cells, canvasCoords)) {
 			cells.push(canvasCoords)	
