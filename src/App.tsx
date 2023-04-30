@@ -55,7 +55,7 @@ function App() {
 		cells = new_cells;
 	}
 
-	function updateCanvas(canvas: HTMLCanvasElement) {
+	function updateCanvas(canvas: HTMLCanvasElement, shouldProceed: boolean = true) {
 		const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 		ctx.fillStyle = "white";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -64,7 +64,7 @@ function App() {
 			ctx.fillRect(cell[0] * 100, cell[1] * 100, 100, 100)
 		}
 
-		if (proceedGeneration) {
+		if (proceedGeneration && shouldProceed) {
 			updateGeneration()
 		}
 	}
@@ -90,6 +90,8 @@ function App() {
 		if (!contains(cells, canvasCoords)) {
 			cells.push(canvasCoords)	
 		}
+		// Lastly, update canvas without proceeding a generation
+		updateCanvas(canvas, false)
 	}
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
