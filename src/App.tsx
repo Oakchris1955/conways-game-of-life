@@ -61,7 +61,9 @@ function App() {
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = "black";
 		for (const cell of cells) {
-			ctx.fillRect(cell[0] * 100, cell[1] * 100, 100, 100)
+			if (cell[0] >= 0 && cell[0] < 10 && cell[1] >= 0 && cell[1] < 10) {
+				ctx.fillRect(cell[0] * 100, cell[1] * 100, 100, 100)
+			}
 		}
 
 		if (proceedGeneration && shouldProceed) {
