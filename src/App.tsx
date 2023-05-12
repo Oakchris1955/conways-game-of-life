@@ -9,6 +9,8 @@ function contains(arr: any[], element: any) {
 
 function App() {
 	let cells: [number, number][] = [];
+	let xOffset = 0,
+		yOffset = 0;
 
 	let proceedGeneration = false;
 
@@ -61,8 +63,9 @@ function App() {
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = "black";
 		for (const cell of cells) {
-			if (cell[0] >= 0 && cell[0] < 10 && cell[1] >= 0 && cell[1] < 10) {
-				ctx.fillRect(cell[0] * 100, cell[1] * 100, 100, 100)
+			if (cell[0] >= -xOffset / 100 - 1 && cell[0] < -xOffset / 100 + 10 &&
+				cell[1] >= -yOffset / 100 - 1 && cell[1] < -yOffset / 100 + 10) {
+				ctx.fillRect(cell[0] * 100 + xOffset, cell[1] * 100 + yOffset, 100, 100)
 			}
 		}
 
@@ -72,12 +75,17 @@ function App() {
 	}
 
 	function getClickCoords(canvas: HTMLCanvasElement, clickEvent: MouseEvent): [number, number] {
-		const x = clickEvent.offsetX / canvas.offsetWidth * canvas.width;
-		const y = clickEvent.offsetY / canvas.offsetHeight * canvas.width
-		return [
-			x < 0 ? 0 : x,
-			y < 0 ? 0 : y
-		]
+		const x = (clickEvent.offsetX) / canvas.offsetWidth * canvas.width - xOffset;
+		const y = (clickEvent.offsetY) / canvas.offsetHeight * canvas.width - yOffset;
+		return [x, y]
+	}
+
+	function handleMove(event: MouseEvent) {
+		if (event.buttons === 1) {
+			xOffset += event.movementX
+			yOffset += event.movementY
+			console.log(xOffset, yOffset)
+		}
 	}
 
 	function handleClick(canvas: HTMLCanvasElement, clickEvent: MouseEvent) {
@@ -104,7 +112,8 @@ function App() {
 		const canvas = canvasRef.current;
 		if (canvas) {
 			canvas.addEventListener('click', (event) => {handleClick(canvas, event)})
-			setInterval(() => updateCanvas(canvas), 250);
+			canvas.addEventListener('mousemove', handleMove)
+			setInterval(() => updateCanvas(canvas), 50);
 		}
 		console.log("useEffect hook just got executed")
 	});
