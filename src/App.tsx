@@ -14,6 +14,8 @@ function App() {
 
 	let proceedGeneration = false;
 
+	let lastMouseDown = 0;
+
 	function updateGeneration() {
 		const cells_to_check: [number, number][] = [];
 		for (const cell of cells) {
@@ -88,22 +90,28 @@ function App() {
 		}
 	}
 
+	function handleMouseDown() {
+		lastMouseDown = Date.now();
+	}
+
 	function handleClick(canvas: HTMLCanvasElement, clickEvent: MouseEvent) {
-		const clickCoords: [number, number] = getClickCoords(canvas, clickEvent);
-		const canvasCoords: [number, number] = 
-		[
-			Math.floor(clickCoords[0] / 100),
-			Math.floor(clickCoords[1] / 100)
-		];
-		console.log(`Click at pixel (${clickCoords[0]}, ${clickCoords[1]})`);
-		// Check if current coordinates are unique in cells (this way no duplicates are created)
-		if (!contains(cells, canvasCoords)) {
-			cells.push(canvasCoords)	
-		} else {
-			cells = cells.filter(cell => !(cell[0] === canvasCoords[0] && cell[1] === canvasCoords[1]))
+		if (Date.now() - lastMouseDown < 100) {
+			const clickCoords: [number, number] = getClickCoords(canvas, clickEvent);
+			const canvasCoords: [number, number] = 
+			[
+				Math.floor(clickCoords[0] / 100),
+				Math.floor(clickCoords[1] / 100)
+			];
+			console.log(`Click at pixel (${clickCoords[0]}, ${clickCoords[1]})`);
+			// Check if current coordinates are unique in cells (this way no duplicates are created)
+			if (!contains(cells, canvasCoords)) {
+				cells.push(canvasCoords)	
+			} else {
+				cells = cells.filter(cell => !(cell[0] === canvasCoords[0] && cell[1] === canvasCoords[1]))
+			}
+			// Lastly, update canvas without proceeding a generation
+			updateCanvas(canvas, false)
 		}
-		// Lastly, update canvas without proceeding a generation
-		updateCanvas(canvas, false)
 	}
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -112,6 +120,7 @@ function App() {
 		const canvas = canvasRef.current;
 		if (canvas) {
 			canvas.addEventListener('click', (event) => {handleClick(canvas, event)})
+			canvas.addEventListener('mousedown', handleMouseDown)
 			canvas.addEventListener('mousemove', handleMove)
 			setInterval(() => updateCanvas(canvas), 50);
 		}
