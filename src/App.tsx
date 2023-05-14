@@ -11,6 +11,7 @@ function App() {
 	let cells: [number, number][] = [];
 	let xOffset = 0,
 		yOffset = 0;
+	let scale = 100;
 
 	let proceedGeneration = false;
 
@@ -65,9 +66,9 @@ function App() {
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = "black";
 		for (const cell of cells) {
-			if (cell[0] >= -xOffset / 100 - 1 && cell[0] < -xOffset / 100 + 10 &&
-				cell[1] >= -yOffset / 100 - 1 && cell[1] < -yOffset / 100 + 10) {
-				ctx.fillRect(cell[0] * 100 + xOffset, cell[1] * 100 + yOffset, 100, 100)
+			if (cell[0] >= -xOffset / scale - 1 && cell[0] < -xOffset / scale + 10 &&
+				cell[1] >= -yOffset / scale - 1 && cell[1] < -yOffset / scale + 10) {
+				ctx.fillRect(cell[0] * scale + xOffset, cell[1] * scale + yOffset, scale, scale)
 			}
 		}
 
@@ -99,8 +100,8 @@ function App() {
 			const clickCoords: [number, number] = getClickCoords(canvas, clickEvent);
 			const canvasCoords: [number, number] = 
 			[
-				Math.floor(clickCoords[0] / 100),
-				Math.floor(clickCoords[1] / 100)
+				Math.floor(clickCoords[0] / scale),
+				Math.floor(clickCoords[1] / scale)
 			];
 			console.log(`Click at pixel (${clickCoords[0]}, ${clickCoords[1]})`);
 			// Check if current coordinates are unique in cells (this way no duplicates are created)
