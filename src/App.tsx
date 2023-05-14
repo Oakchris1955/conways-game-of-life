@@ -128,11 +128,13 @@ function App() {
 		console.log("useEffect hook just got executed")
 	});
 
+	const buttonRef = useRef<HTMLButtonElement>(null);
+
 	return (
 		<main style={{width: "100%", height: "100vh", display: "flex", flexDirection: "column",alignItems: "center", justifyContent: "center"}}>
 			<canvas ref={canvasRef} style={{borderStyle: "solid", width: "80vw", height: "80vw"}} width={1000} height={1000}/>
 			<br/>
-			<button onClick={() => {proceedGeneration = !proceedGeneration}}>Start</button>
+			<button ref={buttonRef} onClick={() => {proceedGeneration = !proceedGeneration; (buttonRef.current as HTMLButtonElement).textContent = proceedGeneration ? "Stop" : "Start"}}>Start</button>
 		</main>
 	);
 }
