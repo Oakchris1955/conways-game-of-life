@@ -66,8 +66,8 @@ function App() {
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = "black";
 		for (const cell of cells) {
-			if (cell[0] >= -xOffset / scale - 1 && cell[0] < -xOffset / scale + 10 &&
-				cell[1] >= -yOffset / scale - 1 && cell[1] < -yOffset / scale + 10) {
+			if (cell[0] >= -xOffset / scale - scale && cell[0] < -xOffset / scale + canvas.width &&
+				cell[1] >= -yOffset / scale - scale && cell[1] < -yOffset / scale + canvas.height) {
 				ctx.fillRect(cell[0] * scale + xOffset, cell[1] * scale + yOffset, scale, scale)
 			}
 		}
