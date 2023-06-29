@@ -132,7 +132,7 @@ function App() {
 
 	return (
 		<main style={{width: "100%", height: "100vh", display: "flex", flexDirection: "column",alignItems: "center", justifyContent: "center"}}>
-			<canvas ref={canvasRef} style={{borderStyle: "solid", width: "80vw", height: "80vw"}} width={1000} height={1000}/>
+			<canvas ref={canvasRef} style={{borderStyle: "solid", width: "80vmin", height: "80vmin"}} width={1000} height={1000}/>
 			<br/>
 			<button ref={buttonRef} onClick={() => {proceedGeneration = !proceedGeneration; (buttonRef.current as HTMLButtonElement).textContent = proceedGeneration ? "Stop" : "Start"}}>Start</button>
 		</main>
