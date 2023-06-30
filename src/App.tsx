@@ -95,6 +95,26 @@ function App() {
 		lastMouseDown = Date.now();
 	}
 
+	function handleScroll(event: WheelEvent) {
+		// Check if delta values are in pixels (Reference: https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent/deltaMode)
+		if (event.deltaMode === 0x00 && event.deltaY !== 0) {
+			// If yes, sace the current scale as a variable
+			let previous_scale = scale;
+
+			// Then, multiple or divide the scale accordingly
+			if (event.deltaY > 0) {
+				scale /= event.deltaY / 100;
+			} else {
+				scale *= -event.deltaY / 100
+			}
+
+			// Calculate offset change so that the scaling towards the center and not the topleft corner
+			let offsetChange = 10 * (previous_scale - scale) / 2;
+			xOffset += offsetChange;
+			yOffset += offsetChange;
+		}
+	}
+
 	function handleClick(canvas: HTMLCanvasElement, clickEvent: MouseEvent) {
 		if (Date.now() - lastMouseDown < 100) {
 			const clickCoords: [number, number] = getClickCoords(canvas, clickEvent);
@@ -123,6 +143,7 @@ function App() {
 			canvas.addEventListener('click', (event) => {handleClick(canvas, event)})
 			canvas.addEventListener('mousedown', handleMouseDown)
 			canvas.addEventListener('mousemove', handleMove)
+			canvas.addEventListener('wheel', handleScroll);
 			setInterval(() => updateCanvas(canvas), 50);
 		}
 		console.log("useEffect hook just got executed")
